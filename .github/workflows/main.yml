@@ -53,6 +53,8 @@ jobs:
           target-folder: kan
           folder: results/releases
           branch: main
+          repository-name: devosb/devosb.github.io
+          token: "${{ secrets.pages }}"
       - name: SILE
         uses: actions/upload-artifact@v3
         with:
