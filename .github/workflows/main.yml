@@ -47,6 +47,12 @@ jobs:
           smith zip
           # smith tarball
           # smith release
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          target-folder: kan
+          folder: results/releases
+          branch: main
       - uses: actions/upload-artifact@v3
         with:
           name: sile
