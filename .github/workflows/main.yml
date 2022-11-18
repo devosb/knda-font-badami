@@ -36,7 +36,7 @@ jobs:
           cd fontproof
           sudo install -m 644 classes/* /usr/share/sile/classes/
           sudo install -m 644 packages/* /usr/share/sile/packages/
-      - name: configure / build / test / release
+      - name: Run smith
         run: |
           # smith version
           smith configure
@@ -77,20 +77,3 @@ jobs:
         with:
           name: packages
           path: results/releases
-      # - uses: marvinpinto/action-automatic-releases@latest
-      #   with:
-      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
-      #     automatic_release_tag: "dev"
-      #     prerelease: true
-      #     title: "Development Build"
-      #     files: |
-      #       results/releases
-      # - uses: ncipollo/release-action@v1
-      #   with:
-      #     artifacts: results/releases/nlci-*-*-*-dev-*.zip
-      #     name: "Development Build"
-      #     generateReleaseNotes: true
-      #     prerelease: true
-      #     allowUpdates: true
-      #     tag: "dev"
-      #     token: "${{ secrets.GITHUB_TOKEN }}"
