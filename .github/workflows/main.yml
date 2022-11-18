@@ -53,21 +53,25 @@ jobs:
           target-folder: kan
           folder: results/releases
           branch: main
-      - uses: actions/upload-artifact@v3
+      - name: SILE
+        uses: actions/upload-artifact@v3
         with:
           name: sile
           path: results/tests/sile/*.pdf
-      - uses: actions/upload-artifact@v3
+      - name: PDFs
+        uses: actions/upload-artifact@v3
         with:
           name: pdfs
           path: results/tests/pdfs/*.pdf
-      - uses: actions/upload-artifact@v3
+      - name: Fonts
+        uses: actions/upload-artifact@v3
         with:
           name: fonts
           path: |
             results/*.ttf
             *.txt
-      - uses: actions/upload-artifact@v3
+      - name: Packages
+        uses: actions/upload-artifact@v3
         with:
           name: packages
           path: results/releases
