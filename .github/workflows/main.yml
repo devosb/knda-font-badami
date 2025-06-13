@@ -1,6 +1,13 @@
 name: main
 
-on: [push, pull_request]
+# on:
+#   push:
+#     branches:
+#       - master
+#     tags:
+#       - v*
+
+on: push
 
 jobs:
   smith:
