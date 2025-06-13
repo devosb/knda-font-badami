@@ -46,7 +46,7 @@ jobs:
       #   with:
       #     name: proofs
       #     path: results/tests/sile/*.pdf
-      - name: Create GitHub Release
+      - name: Create Tagged GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           GITHUB_TOKEN: ${{ github.token }}
