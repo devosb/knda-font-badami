@@ -55,6 +55,7 @@ jobs:
           gh release create dev
           --title "Development Build"
           --generate-notes
+          --prerelease
           results/releases/*
       - name: Create Tagged GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
