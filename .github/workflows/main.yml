@@ -33,11 +33,6 @@ jobs:
           smith build
           smith zip
           smith sile
-      - name: Upload proofs
-        uses: actions/upload-artifact@v4
-        with:
-          name: proofs
-          path: results/tests/sile/*.pdf
       - name: Upload fonts
         uses: actions/upload-artifact@v4
         with:
@@ -50,6 +45,11 @@ jobs:
         with:
           name: packages
           path: results/releases
+      - name: Upload proofs
+        uses: actions/upload-artifact@v4
+        with:
+          name: proofs
+          path: results/tests/sile/*.pdf
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ github.token }}
