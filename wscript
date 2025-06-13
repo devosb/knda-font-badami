@@ -7,7 +7,7 @@
 opts = preprocess_args(
     {'opt' : '-l'}, # build fonts from legacy for inclusion into final fonts
     {'opt' : '-r'}, # only build the main regular font
-    {'opt' : '-s'}  # only build a single font family
+    {'opt' : '-s'}  # only build the main font family
     )
 
 import os2
@@ -37,11 +37,8 @@ stylesName = ('Regular', 'Bold', 'Italic', 'Bold Italic')
 stylesLegacy = ('', 'BD', 'I', 'BI')
 dspaces = ('Roman', 'Italic')
 
-if '-r' in opts or '-s' in opts:
+if '-s' in opts:
     faces = (faces[0],)
-
-if '-r' in opts:
-    dspaces = ('Regular',)
 
 # set build parameters
 fontbase = 'source/'
@@ -83,6 +80,7 @@ for f in faces:
                 cmd('psfchangettfglyphnames ${SRC} ${DEP} ${TGT}', ['source/${DS:FILENAME_BASE}.ufo']),
             ),
             # params = '--decomposeComponents --removeOverlaps',
+            instances = ['Badami Regular'] if '-r' in opts else None,
             opentype = fea(generated + '${DS:FILENAME_BASE}.fea',
                 mapfile = generated + '${DS:FILENAME_BASE}.map',
                 master = fontbase + 'master.feax',
