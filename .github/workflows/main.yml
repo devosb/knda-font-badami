@@ -33,10 +33,14 @@ jobs:
           smith build
           smith zip
           smith sile
-      - uses: actions/upload-artifact@v4
+      - name: sile
+        uses: actions/upload-artifact@v4
         with:
-          name: sile
           path: results/tests/sile/*.pdf
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: sile
+      #     path: results/tests/sile/*.pdf
       - uses: actions/upload-artifact@v4
         with:
           name: fonts
@@ -56,4 +60,4 @@ jobs:
           --title "Development ${{ github.ref_name }} Build ${{ github.ref_name }}"
           --generate-notes
           --prerelease
-          results/releases/nlci-*-*-*-dev-*.zip
+          results/releases/*
