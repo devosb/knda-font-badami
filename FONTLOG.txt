@@ -14,7 +14,7 @@ ChangeLog
 ---------
 (This should list both major and minor changes, most recent first.)
 
-811
+812
 again
 805
 release

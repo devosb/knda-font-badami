@@ -1,13 +1,13 @@
 name: main
 
-# on:
-#   push:
-#     branches:
-#       - master
-#     tags:
-#       - v*
+on:
+  push:
+    # branches:
+    #   - master
+    tags:
+      - v*
 
-on: push
+# on: push
 
 jobs:
   smith:
