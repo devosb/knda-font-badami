@@ -1,4 +1,4 @@
-name: smith
+name: main
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - master
 
 jobs:
-  build:
+  smith:
+    # if: ! startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
 
     permissions:
@@ -14,48 +15,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Install smith toolchain
         run: |
           sudo add-apt-repository -y ppa:silnrsi/smith-py3
           sudo add-apt-repository -y ppa:sile-typesetter/sile
-          # sudo add-apt-repository -y ppa:fontforge/fontforge
-          # sudo add-apt-repository -y ppa:jonathonf/texlive-2019
-          # sudo add-apt-repository -y ppa:git-core/ppa
           sudo apt-get update -y -q
           sudo apt-get install sile luarocks libfont-ttf-scripts-perl grcompiler -y -qq
-          # sudo apt-get remove *php* *mono* *dotnet* -y
-          # sudo apt-get autoremove -y
-          # sudo apt-get upgrade -q -y
-          # sudo apt-get install libjson-perl libtext-csv-perl libharfbuzz-bin -y
-          # sudo apt-get install smith-font -y --no-install-recommends
-          # sudo apt-get install python3-pip python3-setuptools -y
-          # pip3 install fontmake --user
-          # pip3 install MutatorMath --user
           pip3 install Brotli --user
           python3 -m pip install --upgrade "silfont[git] @ git+https://github.com/silnrsi/pysilfont.git@master" --user
           python3 -m pip install --upgrade "feaxlib @ git+https://github.com/silnrsi/feax.git@main" --user
           python3 -m pip install --upgrade "smith @ git+https://github.com/silnrsi/smith.git@master" --user
-          # python3 -m pip install --upgrade gftools@https://github.com/googlefonts/gftools.git@main --user
-          # sudo pip3 install --upgrade git+https://github.com/googlefonts/fontbakery.git@main#egg=fontbakery
           sudo luarocks install fontproof
-      - name: configure / build / test / release
+      - name: Run smith
         run: |
-          # smith version
           smith configure
           smith build
-          smith sile
           smith zip
-          # smith release
-          # smith alltests
-          # smith pdfs
+          smith sile
       - uses: actions/upload-artifact@v4
         with:
           name: sile
           path: results/tests/sile/*.pdf
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: text
-      #     path: results/tests/pdfs/*.pdf
       - uses: actions/upload-artifact@v4
         with:
           name: fonts
@@ -72,7 +53,7 @@ jobs:
         run: >-
           gh release delete dev -y --cleanup-tag || true;
           gh release create dev
-          --title "Development Build"
+          --title "Development ${{ github.ref_name }} Build ${{ github.ref_name }}"
           --generate-notes
           --prerelease
           results/releases/nlci-*-*-*-dev-*.zip
