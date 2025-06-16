@@ -23,30 +23,39 @@ jobs:
           python3 -m pip install --upgrade "feaxlib @ git+https://github.com/silnrsi/feax.git@main" --user
           python3 -m pip install --upgrade "smith @ git+https://github.com/silnrsi/smith.git@master" --user
           sudo luarocks install fontproof
-      - name: Run smith
+      - name: Smith configure
         run: |
           smith configure
+      - name: Smith dev build
+        if: startsWith(github.ref, 'refs/heads/')
+        run: |
           smith build
           smith zip
-          # smith sile
-      # - name: Upload fonts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: fonts
-      #     path: |
-      #       results/*.ttf
-      #       *.txt
-      # - name: Upload packages
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: packages
-      #     path: results/releases
-      # - name: Upload proofs
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: proofs
-      #     path: results/tests/sile/*.pdf
-      - name: Create Devel GitHub Release
+      - name: Smith release build
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          smith release
+      - name: Smith tests
+        run: |
+          smith sile
+      - name: Upload fonts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fonts
+          path: |
+            results/*.ttf
+            *.txt
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: results/releases
+      - name: Upload proofs
+        uses: actions/upload-artifact@v4
+        with:
+          name: proofs
+          path: results/tests/sile/*.pdf
+      - name: Publish dev build
         if: startsWith(github.ref, 'refs/heads/')
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -57,7 +66,7 @@ jobs:
           --generate-notes
           --prerelease
           results/releases/*
-      - name: Create Tagged GitHub Release
+      - name: Publish release build
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           GITHUB_TOKEN: ${{ github.token }}
